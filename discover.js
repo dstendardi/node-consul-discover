@@ -34,7 +34,7 @@ module.exports = function (params) {
     return deps.consul.catalog.service.nodes(deps.service)
       .then(result => {
         if (! result.length) {
-          throw new Error('unable to discover dynamo instance');
+          throw new Error(`unable to find node ${deps.service} instance`);
         }
         console.log(`[consul] discovered ${result.length} nodes for service ${deps.service}`);
         return deps.transform(result);
