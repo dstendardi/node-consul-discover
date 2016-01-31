@@ -4,6 +4,7 @@ const aws = require('aws-promised');
 const bluebird = require('bluebird');
 const retry = require('bluebird-retry');
 const _ = require('lodash');
+const debug = require('debug')('discover');
 
 module.exports = function (params) {
 
@@ -29,14 +30,14 @@ module.exports = function (params) {
    * @return Promise[String] a promise containing the endpoint
    */
   const _discover = function () {
-    console.log(`[consul] starting discovery of service ${deps.service}`);
+    debug(`consul : starting discovery of service ${deps.service}`);
 
     return deps.consul.catalog.service.nodes(deps.service)
       .then(result => {
         if (! result.length) {
           throw new Error(`unable to find node ${deps.service} instance`);
         }
-        console.log(`[consul] discovered ${result.length} nodes for service ${deps.service}`);
+        debug(`consul : discovered ${result.length} nodes for service ${deps.service}`);
         return deps.transform(result);
       });
   };
