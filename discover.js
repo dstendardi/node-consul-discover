@@ -36,7 +36,7 @@ module.exports = function (params) {
         if (! result.length) {
           throw new Error('unable to discover dynamo instance');
         }
-        console.log(`[consul] discovered service ${deps.service}`, result);
+        console.log(`[consul] discovered ${result.length} nodes for service ${deps.service}`);
         return deps.transform(result);
       });
   };
